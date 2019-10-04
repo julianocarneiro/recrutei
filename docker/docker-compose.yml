@@ -34,8 +34,8 @@ services:
     container_name: ${BACKEND}
     user: "node"
     working_dir: /home/node/app
-    environment:
-      - NODE_ENV=production
+ #   environment:
+ #     - NODE_ENV=production
     volumes:
       - ${DOCUMENT_ROOT_BACK-./}:/home/node/app
     ports:
