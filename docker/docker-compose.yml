@@ -1,0 +1,63 @@
+version: "2.1"
+
+networks:
+  webserver_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.2.0/16
+          gateway: 172.19.2.1
+
+services:
+  node1:
+    build:
+      context: ./bin/webserver
+    container_name: ${FRONTEND}
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ${DOCUMENT_ROOT_FRONT-./}:/home/node/app
+    ports:
+      - "80:8080"
+    command: "npm start"
+
+    networks:
+      webserver_net:
+        ipv4_address: 172.19.2.10
+
+  node2:
+    build:
+      context: ./bin/webserver
+    container_name: ${BACKEND}
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ${DOCUMENT_ROOT_BACK-./}:/home/node/app
+    ports:
+      - "8080:8080"
+    command: "npm start"
+    links:
+      - postgres_server
+    networks:
+      webserver_net:
+        ipv4_address: 172.19.2.11
+
+  postgres_server:
+    container_name: ${POSTGRES}
+    build: ./bin/postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${POSTGRES_DATA_DIR-./data/postgres}:/usr/local/pgsql
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      webserver_net:
+        ipv4_address: 172.19.2.12

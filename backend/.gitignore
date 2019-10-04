@@ -1,0 +1,6 @@
+# Adonis directory for storing tmp files
+tmp
+
+
+# The development sqlite file
+database/development.sqlite
