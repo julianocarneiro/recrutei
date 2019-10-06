@@ -1,92 +1,46 @@
 'use strict'
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
 
-/**
- * Resourceful controller for interacting with perfilautorizacaos
- */
+const Model = use('App/Models/PerfilAutorizacao')
+
 class PerfilAutorizacaoController {
-  /**
-   * Show a list of all perfilautorizacaos.
-   * GET perfilautorizacaos
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async index ({ request }) {
+    const { page } = request.get()
+    const model = await Model.query()
+      .paginate(page)
+
+    return model
   }
 
-  /**
-   * Render a form to be used for creating a new perfilautorizacao.
-   * GET perfilautorizacaos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async store ({ request }) {
+    const data = request.only(['perfil_id', 'autorizacao_id', 'liberado'])
+    const model = await Model.create({ ...data })
+
+    return model
   }
 
-  /**
-   * Create/save a new perfilautorizacao.
-   * POST perfilautorizacaos
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
+  async show ({ params }) {
+    const model = await Model.findOrFail(params.id)
+    return model
   }
 
-  /**
-   * Display a single perfilautorizacao.
-   * GET perfilautorizacaos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
+
+  async update ({ params, request }) {
+    const model = await Model.findOrFail(params.id)
+    const data = request.only(['perfil', 'tecnico'])
+
+    model.merge(data)
+    await model.save()
+
+    return model
   }
 
-  /**
-   * Render a form to update an existing perfilautorizacao.
-   * GET perfilautorizacaos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
 
-  /**
-   * Update perfilautorizacao details.
-   * PUT or PATCH perfilautorizacaos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+  async destroy ({ params }) {
+    const model = await Model.findOrFail(params.id)
 
-  /**
-   * Delete a perfilautorizacao with id.
-   * DELETE perfilautorizacaos/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+    await model.delete()
   }
 }
 

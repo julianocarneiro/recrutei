@@ -9,7 +9,11 @@ class AutorizacaoSchema extends Schema {
       table.increments()
       table.string('nome', 60)
       table.string('url', 60)
+      table.string('method', 60)
+      table.string('controller', 60)
+      table.string('action', 60)
       table.string('menu', 60)
+      table.string('icon', 20)
       table.timestamps()
     })
   }

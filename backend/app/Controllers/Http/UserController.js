@@ -2,9 +2,10 @@
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 
-const Model = use('App/Models/Cliente')
+const Model = use('App/Models/User')
 
-class ClienteController {
+class UserController {
+
   async index ({ request }) {
     const { page } = request.get()
     const model = await Model.query()
@@ -14,7 +15,7 @@ class ClienteController {
   }
 
   async store ({ request }) {
-    const data = request.only(['nome', 'email', 'telefone'])
+    const data = request.only(['username', 'email', 'password', 'perfil_id'])
     const model = await Model.create({ ...data })
 
     return model
@@ -28,7 +29,7 @@ class ClienteController {
 
   async update ({ params, request }) {
     const model = await Model.findOrFail(params.id)
-    const data = request.only(['nome', 'email', 'telefone'])
+    const data = request.only(['username', 'email', 'password', 'perfil_id'])
 
     model.merge(data)
     await model.save()
@@ -36,11 +37,13 @@ class ClienteController {
     return model
   }
 
+
   async destroy ({ params }) {
     const model = await Model.findOrFail(params.id)
 
     await model.delete()
   }
+
 }
 
-module.exports = ClienteController
+module.exports = UserController

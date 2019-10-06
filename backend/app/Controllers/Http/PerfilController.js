@@ -1,92 +1,46 @@
 'use strict'
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
 
-/**
- * Resourceful controller for interacting with perfils
- */
+const Model = use('App/Models/Perfil')
+
 class PerfilController {
-  /**
-   * Show a list of all perfils.
-   * GET perfils
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async index ({ request }) {
+    const { page } = request.get()
+    const model = await Model.query()
+      .paginate(page)
+
+    return model
   }
 
-  /**
-   * Render a form to be used for creating a new perfil.
-   * GET perfils/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async store ({ request }) {
+    const data = request.only(['perfil', 'tecnico'])
+    const model = await Model.create({ ...data })
+
+    return model
   }
 
-  /**
-   * Create/save a new perfil.
-   * POST perfils
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
+  async show ({ params }) {
+    const model = await Model.findOrFail(params.id)
+    return model
   }
 
-  /**
-   * Display a single perfil.
-   * GET perfils/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
+
+  async update ({ params, request }) {
+    const model = await Model.findOrFail(params.id)
+    const data = request.only(['perfil', 'tecnico'])
+
+    model.merge(data)
+    await model.save()
+
+    return model
   }
 
-  /**
-   * Render a form to update an existing perfil.
-   * GET perfils/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
 
-  /**
-   * Update perfil details.
-   * PUT or PATCH perfils/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+  async destroy ({ params }) {
+    const model = await Model.findOrFail(params.id)
 
-  /**
-   * Delete a perfil with id.
-   * DELETE perfils/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+    await model.delete()
   }
 }
 
