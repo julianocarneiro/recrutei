@@ -18,6 +18,7 @@ class Sidebar extends Component {
                         <li><Link to="/usuarios"><i className="fa fa-user"></i> <span>Usuarios</span></Link></li>
                         <li><Link to="/tipos-suporte"><i className="fa fa-book"></i> <span>Tipos Suporte</span></Link></li>
                         <li><Link to="/tipos-status"><i className="fa fa-book"></i> <span>Tipos Status</span></Link></li>
+                        <li><Link to="/perfil"><i className="fa fa-book"></i> <span>Perfil</span></Link></li>
 
                     </ul>
                 </section>

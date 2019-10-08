@@ -1,6 +1,5 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import * as router from 'react-router-dom';
 
 import routes from '../../routes';
 
