@@ -10,42 +10,42 @@ networks:
           gateway: 172.19.2.1
 
 services:
-#  node1:
-#    build:
-#      context: ./bin/webserver
-#    container_name: ${FRONTEND}
-#    user: "node"
-#    working_dir: /home/node/app
-#    environment:
-#      - NODE_ENV=production
-#    volumes:
-#      - ${DOCUMENT_ROOT_FRONT-./}:/home/node/app
-#    ports:
-#      - "80:8080"
-#    command: "npm start"
-#
-#    networks:
-#      webserver_net:
-#        ipv4_address: 172.19.2.10
-#
-#  node2:
-#    build:
-#      context: ./bin/webserver
-#    container_name: ${BACKEND}
-#    user: "node"
-#    working_dir: /home/node/app
-# #   environment:
-# #     - NODE_ENV=production
-#    volumes:
-#      - ${DOCUMENT_ROOT_BACK-./}:/home/node/app
-#    ports:
-#      - "8080:8080"
-#    command: "npm start"
-#    links:
-#      - postgres_server
-#    networks:
-#      webserver_net:
-#        ipv4_address: 172.19.2.11
+  node1:
+    build:
+      context: ./bin/webserver
+    container_name: ${FRONTEND}
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ${DOCUMENT_ROOT_FRONT-./}:/home/node/app
+    ports:
+      - "80:8080"
+    command: "npm start"
+
+    networks:
+      webserver_net:
+        ipv4_address: 172.19.2.10
+
+  node2:
+    build:
+      context: ./bin/webserver
+    container_name: ${BACKEND}
+    user: "node"
+    working_dir: /home/node/app
+ #   environment:
+ #     - NODE_ENV=production
+    volumes:
+      - ${DOCUMENT_ROOT_BACK-./}:/home/node/app
+    ports:
+      - "8080:8080"
+    command: "npm start"
+    links:
+      - postgres_server
+    networks:
+      webserver_net:
+        ipv4_address: 172.19.2.11
 
   postgres_server:
     container_name: ${POSTGRES}
