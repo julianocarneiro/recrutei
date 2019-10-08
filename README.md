@@ -5,7 +5,7 @@
 git clone git@github.com:julianocarneiro/recrutei.git
 ```
 
-##Com rodar a aplicação
+## Como rodar a aplicação
 Para rodar a aplicação é necessário ter o docker instalado, entrar na pasta recrutei e executar o arquivo ./start.sh
 
 ```
@@ -13,7 +13,7 @@ cd recritei
 ./start.sh
 ```
 
-Para criar o banco de dados, rode
+### Para criar o banco de dados, rode
 
 ```
 ubersystem@ubersystem-PC:/mnt/projetos/Ubersystem/Estudos/recrutei$ docker ps
@@ -33,12 +33,12 @@ node@5f487240af58:~/app$
 
 ```
 
-Acesso a aplicação frontend
+### Acesso a aplicação frontend
 ```
 http://localhost
 ```
 
-Acesso a aplicação backend
+### Acesso a aplicação backend
 ```
 http://localhost:8080
 ```
